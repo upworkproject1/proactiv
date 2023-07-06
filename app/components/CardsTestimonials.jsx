@@ -15,7 +15,7 @@ const CardsTestimonials = () => {
                 <span id="item-4"></span>
                 {/* <span id="item-5"></span> */}
                 <div className="flex flex-col justify-center h-[70vh] items-center carousel-item rounded-lg item-1 shadow-lg bg-[#d6d6d665]">
-                    <img className="rounded-lg" style={{height:'5rem' , marginBottom: '10px'}} src="https://res.cloudinary.com/dbhtt5ozr/image/upload/v1687151170/The_Salon_SL_11_-02_p8vdyu.png" alt="" />
+                    <img className="rounded-lg" style={{height:'5rem' , marginBottom: '10px'}} src="https://res.cloudinary.com/dbew7ibhf/image/upload/v1688673386/The_Salon_SL_11_-02_p8vdyu_kvvkrl.png" alt="" />
                     <div className="flex flex-col justify-between items-center gap-2">
                         <p className="fontGeneral">
                             &quot;
@@ -45,7 +45,7 @@ const CardsTestimonials = () => {
                 
                 {/* ITEM OPEN */}
                 <div className="flex flex-col justify-center h-[70vh] items-center carousel-item rounded-lg item-2 shadow-lg bg-[#d6d6d665]">
-                    <img className="rounded-lg" style={{height:'5rem' , marginBottom: '10px'}} src="https://res.cloudinary.com/dbhtt5ozr/image/upload/v1687151480/BENTLEYS_Mesa_de_trabajo_1_wzvoxb.png" alt="" />
+                    <img className="rounded-lg" style={{height:'5rem' , marginBottom: '10px'}} src="https://res.cloudinary.com/dbew7ibhf/image/upload/v1688673383/BENTLEYS_Mesa_de_trabajo_1_wzvoxb_iwnti9.png" alt="" />
                     <div className="flex flex-col justify-between items-center gap-2 mt-2">
                         <p className="fontGeneral">
                             &quot;
@@ -60,7 +60,7 @@ const CardsTestimonials = () => {
 
                 {/* ITEM OPEN */}
                 <div className="flex flex-col justify-center h-[70vh] items-center carousel-item rounded-lg item-3 shadow-lg bg-[#d6d6d665]">
-                    <img className="rounded-lg" style={{height:'5rem' , marginBottom: '10px'}} src="https://res.cloudinary.com/dbhtt5ozr/image/upload/v1687152031/scco-1_Mesa_de_trabajo_1_copia_jcyesi.png" alt="" />
+                    <img className="rounded-lg" style={{height:'5rem' , marginBottom: '10px'}} src="https://res.cloudinary.com/dbew7ibhf/image/upload/v1688673385/scco-1_Mesa_de_trabajo_1_copia_jcyesi_dtrv5l.png" alt="" />
                     <div className="flex flex-col justify-between items-center gap-2">
                         <p className="fontGeneral">
                             &quot;
@@ -76,7 +76,7 @@ const CardsTestimonials = () => {
 
                 {/* ITEM OPEN */}
                 <div className="flex flex-col justify-center h-[70vh] items-center carousel-item rounded-lg item-4 shadow-lg bg-[#d6d6d665]">
-                    <img className="rounded-lg" style={{height:'5rem' , marginBottom: '10px'}} src="https://res.cloudinary.com/dbhtt5ozr/image/upload/v1687152301/Sinsssaaaa_t%C3%ADtulo-1-03_j4n92h.png" alt="" />
+                    <img className="rounded-lg" style={{height:'5rem' , marginBottom: '10px'}} src="https://res.cloudinary.com/dbew7ibhf/image/upload/v1688673385/Sinsssaaaa_t%C3%ADtulo-1-03_j4n92h_qwnn0q.png" alt="" />
                     <div className="flex flex-col justify-between items-center gap-2">
                         <p className="fontGeneral">
                             &quot;
