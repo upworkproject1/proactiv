@@ -89,7 +89,6 @@ const SoftwareSubscription = () => {
       data.email.length == 0 || 
       data.number.length == 0 ||
       data.industry.length == 0 ||
-      data.web.length == 0 ||
       data.address.length == 0 
       ){
         alert('Complete the fields')
