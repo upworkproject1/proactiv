@@ -52,7 +52,7 @@ const Celebration = ({result}) => {
             software use. 
             <br />
             <br className="my-2" />           
-            <span className='outlined-red ' style={{fontWeight: '700', fontSize:'2.5rem'}}>Valued @ &#163;{result.valued}</span>
+            <span className='outlined-red ' style={{fontWeight: '700', fontSize:'2.5rem'}}>Valued @ &#163;{result.valued + 53}</span>
             <br />
             to use for free up to 
             <br />
