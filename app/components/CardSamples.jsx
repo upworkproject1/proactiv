@@ -22,7 +22,7 @@ const CardSamples = () => {
                 <img className="w-[150px] h-[150px] overflow-hidden pb-3 rounded-lg samples-zoomable-imageRight" src="https://res.cloudinary.com/dbew7ibhf/image/upload/v1688673385/Sin_t%C3%ADtulo-1_Mesa_de_trabajo_1_copia_4_s09qpv_kog2c4.png" alt="" /> 
 
                 <img className="w-[150px] h-[150px] overflow-hidden pb-3 rounded-lg samples-zoomable-imageLeft" src="https://res.cloudinary.com/dbew7ibhf/image/upload/v1688673385/Sin_t%C3%ADtulo-1_Mesa_de_trabajo_1_copia_hra8f5_nj0tcd.png" alt="" /> 
-                <img className="w-[150px] h-[150px] overflow-hidden pb-3 rounded-lg samples-zoomable-imageRight" src="https://res.cloudinary.com/dbhtt5ozr/image/upload/v1686157767/CS7_lgs3ja.jpg" alt="" />
+                <img className="w-[150px] h-[150px] overflow-hidden pb-3 rounded-lg samples-zoomable-imageRight" src="https://res.cloudinary.com/dbew7ibhf/image/upload/v1688675362/CS7_lgs3ja_koutr4.jpg" alt="" />
 
 
             {/* <div className="flex flex-col justify-between items-center">

@@ -175,7 +175,7 @@ const KeyfobsPrice = () => {
           className="w-full px-2 py-2 mb-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         /> */}
         <p className="text-red-700 text-[1.5rem]" style={{fontWeight: '700'}}>50% DISCOUNT TODAY!</p>
-        <img className='rounded-lg md:w-[50%]' src="https://res.cloudinary.com/dbhtt5ozr/image/upload/v1687585809/splitrings_oxa6ym.png" alt="ringbag" />
+        <img className='rounded-lg md:w-[50%]' src="https://res.cloudinary.com/dbew7ibhf/image/upload/v1688673386/splitrings_oxa6ym_vqu95j.png" alt="ringbag" />
 
         <label htmlFor="Todays price" className="fontForm w-full text-center mt-1">
           Include {bagsRings} bags for £{bagsRings*3}
