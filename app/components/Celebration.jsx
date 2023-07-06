@@ -8,6 +8,7 @@ const Celebration = ({result}) => {
 
     const [width , setWidth] =useState(0)
     const [height , setHeight] =useState(0)
+    const [valued, setValued] = useState(0)
     
     let { width1, height1 } = useWindowSize()
     
@@ -36,6 +37,24 @@ const Celebration = ({result}) => {
     }, []);    
 
 
+    useEffect(()=>{
+        if(result.number == 1){
+            setValued(233)
+        }else if (result.number == 2){
+            setValued(642)
+        }else if (result.number == 3){
+            setValued(593)
+        }else if (result.number == 4){
+            setValued(593)
+        }else if (result.number == 5){
+            setValued(413)
+        }else if (result.number == 6){
+            setValued(323)
+        }
+    },[])
+
+
+
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-[#331C8D] overflow-hidden" onClick={clickCongrat}>
 
@@ -52,7 +71,8 @@ const Celebration = ({result}) => {
             software use. 
             <br />
             <br className="my-2" />           
-            <span className='outlined-red ' style={{fontWeight: '700', fontSize:'2.5rem'}}>Valued @ &#163;{ result.number == 2 ? 642 : result.valued + 53}</span>
+            <span className='outlined-red ' style={{fontWeight: '700', fontSize:'2.5rem'}}>Valued @ &#163; { valued }
+            </span>
             <br />
             to use for free up to 
             <br />
