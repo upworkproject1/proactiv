@@ -13,10 +13,22 @@ export const Spinning = ({setCongrats,setResult}) => {
     setDeg(Math.ceil(Math.random() * 100000))
     setClicked(true)
 
+    localStorage.setItem('click', JSON.stringify('done'));
+
     setTimeout(()=>{
        setCongrats(false)
     },8000)  
   }
+
+  useEffect(()=>{
+    let clickedDone = JSON.parse(localStorage.getItem('click'));
+    if( clickedDone == 'done'){
+      setClicked(true)
+    }
+
+
+  },[])
+
 
   useEffect(()=>{
     setResult(prize)
@@ -178,7 +190,7 @@ export const Spinning = ({setCongrats,setResult}) => {
         !clicked ?
         <button className='px-6 py-2 bg-[#a52a2a] text-lg text-white rounded-lg' onClick={handleSpin} >Spin!</button>
         :
-        <button className='px-6 py-2 bg-[#a52a2a] text-lg text-white rounded-lg opacity-50' disabled >Spin!</button>
+        <button className='px-6 py-2 bg-[#a52a2a] text-lg text-white rounded-lg opacity-50' disabled >Already done!</button>
       }
 
       
