@@ -110,19 +110,82 @@ const SoftwareSubscription = () => {
 
   return (
     <div className="flex flex-col mx-5 my-4 pb-2 items-center bg-white rounded-lg shadow-md relative md:w-[55%]">
-      <p className="fontTitle text-center colorPrimary" style={{fontWeight: '700'}}>
-        Congratulations on winning!!
-      </p>
 
-
-      <p className="fontTitle text-center" style={{fontWeight: '700', color: '#4a6bb6'}}> <span className="underline">{prize.description}</span>  software subscription!!</p>
+      <p className="fontTitle text-center" style={{fontWeight: '700', color: '#4a6bb6'}}> <span className="colorPrimary">Congratulations on winning</span> <br /> <span className="underline">{prize.description}</span>  software subscription!!</p>
 
       <p className="fontSubTitle text-center" style={{fontSize:'1.5rem'}}>To go with your free plastic referral marketing cards.</p>
 
       <p className="fontGeneral pb-0 mb-5" style={{textAlign: 'center', fontStyle: 'italic'}}>
         (NO CONTRACT - cancel at any time <br /> - 30 days notice)
       </p>
-      
+
+      <p className="fontGeneral pb-1 underline" style={{fontWeight: '700', color: '#4a6bb6', fontSize:'1.5rem', textAlign: 'center'}}>Use as many of the features as you like</p>
+
+
+      <div id='DIVsoftwarecomponents' className='flex flex-col justify-center items-center w-[90%] rounded-lg shadow-lg pb-2 mb-3 bg-[#ebebeb86]'>
+        <p className="fontSubTitle" style={{paddingBottom:'0.2rem'}}>Software Components</p>
+        <ul className="fontGeneral">
+          <li className=" flex justify-around items-center h-fit border-2 border-[#a52a2a49] py-1">
+            <div className=' w-[95%] h-[100%] flex justify-center items-center'>
+              <p className='fontGeneral' style={{textAlign: 'start', padding: '0 4px 0 2px'}}>1.-</p>
+              <p className='fontGeneral w-[100%]' style={{textAlign: 'start' , padding:'0 0 0 0'}}> Database</p>
+            </div>
+            <span className='w-[2px] h-[30px] bg-[#a52a2a49]'></span>
+            <div className='w-[95%] h-[100%] flex justify-center items-center'>
+              <p className='fontGeneral' style={{textAlign: 'start', padding: '0 4px 0 2px'}}>2.-</p>              
+              <p className='fontGeneral w-[100%]' style={{textAlign: 'start', padding:'0 0 0 0'}}>Telephone / Email Marketing</p>
+            </div>
+          </li>
+
+          <li className=" flex justify-around items-center h-fit border-2 border-[#a52a2a49] py-1">
+            <div className='w-[95%] h-[100%] flex justify-center items-center'>
+              <p className='fontGeneral' style={{textAlign: 'start', padding: '0 4px 0 2px'}}>3.-</p> 
+              <p className='fontGeneral w-[100%] text-center' style={{textAlign: 'start', padding:'0 0 0 0'}}>Referral Marketing</p>
+            </div>
+            <span className='w-[2px] h-[30px] bg-[#a52a2a49]'></span>
+            <div className='w-[95%] h-[100%] flex justify-center items-center'>
+              <p className='fontGeneral' style={{textAlign: 'start', padding: '0 4px 0 2px'}}>4.-</p>               
+              <p className='fontGeneral w-[100%]' style={{textAlign: 'start', padding:'0 0 0 0'}}>Gift Cards</p>
+            </div>
+          </li>
+
+          <li className=" flex justify-around items-center h-fit border-2 border-[#a52a2a49] py-1">
+            <div className='w-[95%] h-[100%] flex justify-center items-center'>
+              <p className='fontGeneral' style={{textAlign: 'start', padding: '0 4px 0 2px'}}>5.-</p>                
+              <p className='fontGeneral w-[100%] text-center' style={{textAlign: 'start', padding:'0 0 0 0'}}>Loyalty / Incentive Marketing</p>
+            </div>
+            <span className='w-[2px] h-[30px] bg-[#a52a2a49]'></span>
+            <div className='w-[95%] h-[100%] flex justify-center items-center'>
+              <p className='fontGeneral' style={{textAlign: 'start', padding: '0 4px 0 2px'}}>6.-</p>                
+              <p className='fontGeneral w-[100%]' style={{textAlign: 'start', padding:'0 0 0 0'}}>Diary System</p>
+            </div>
+          </li>
+
+          <li className=" flex justify-around items-center h-fit border-2 border-[#a52a2a49] py-1">
+            <div className='w-[95%] h-[100%] flex justify-center items-center'>
+              <p className='fontGeneral' style={{textAlign: 'start', padding: '0 4px 0 2px'}}>7.-</p>  
+              <p className='fontGeneral w-[100%] text-center' style={{textAlign: 'start', padding:'0 0 0 0'}}>Stock Control</p>
+            </div>
+            <span className='w-[2px] h-[30px] bg-[#a52a2a49]'></span>
+            <div className='w-[95%] h-[100%] flex justify-center items-center'>
+              <p className='fontGeneral' style={{textAlign: 'start', padding: '0 4px 0 2px'}}>8.-</p>                
+              <p className='fontGeneral w-[100%]' style={{textAlign: 'start', padding:'0 0 0 0'}}>Invoicing </p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+
+      <p className="fontGeneral my-4" style={{textAlign: 'center'}}>
+        Your free trial will end on{" "}
+        <span className="font-semibold">{prize.date}</span>{" "}
+      </p>
+
+
+      <p className="fontGeneral pb-3" style={{textAlign: 'center', fontStyle: 'italic'}}>
+        After your FREE trial, ONLY pay for what features you want to use. <br />
+      </p>
+
 
       <p className="fontGeneral pb-0 underline" style={{fontWeight: '700', color: '#4a6bb6', fontSize:'1.5rem'}}>Price After Free Trial</p>
 
@@ -183,18 +246,13 @@ const SoftwareSubscription = () => {
       </div>
 
 
-      <p className="fontGeneral pb-3" style={{textAlign: 'center', fontStyle: 'italic'}}>
-        After your FREE trial, ONLY pay for what features you want to use. <br />
-      </p>
+
 
       <div className=" text-center">
         <p className="fontAlternative" style={{paddingBottom: "4px", fontSize:'1rem'}}>Please provide required information</p>
         {/* <p className="text-xs"> * marked fields are mandatory</p> */}
       </div>
-      <p className="fontGeneral mb-4" style={{textAlign: 'center'}}>
-        Your free trial will end on{" "}
-        <span className="font-semibold">{prize.date}</span>{" "}
-      </p>
+
       <p className="fontGeneral mb-2" style={{textAlign: 'center'}}>
         Please choose your package after free trial period:
       </p>
