@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 
 const KeyfobsPrice = () => {
-    const [customers, setCustomers] = useState(0) 
+    const [customers, setCustomers] = useState(250) 
     const [price, setPrice] = useState(0.39)
     const [bagsRings, setBagsrings] = useState(0)
     const [optionsyes, setOptionsyes] = useState('Yes')
@@ -24,7 +24,7 @@ const KeyfobsPrice = () => {
 
 
     const handleChange = (e) =>{
-        setCustomers(e.target.value)
+      setCustomers(e.target.value)
     }
 
 
@@ -55,8 +55,8 @@ const KeyfobsPrice = () => {
         e.preventDefault()
 
 
-        if( customers < 0 ){
-            alert('Invalid number')
+        if( customers < 250 ){
+            alert('minimum 250 customers')
         } else{    
           
           localStorage.setItem('keyfobs', JSON.stringify({customers: customers, price: price, addrings: optionsyes}));
@@ -122,7 +122,7 @@ const KeyfobsPrice = () => {
 
         
         <label htmlFor="Average no. of customers per month" className="fontForm mb-1 w-full text-left">
-          Total number of customers
+          Total number of customers <span style={{fontSize:'10px'}}>(minimum 250 customers)</span>
         </label>      
         <input
             type="number"
