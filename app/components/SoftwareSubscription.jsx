@@ -249,7 +249,7 @@ const SoftwareSubscription = () => {
 
 
       <div className=" text-center">
-        <p className="fontAlternative" style={{paddingBottom: "4px", fontSize:'1rem'}}>Please provide required information</p>
+        <p className="fontAlternative" style={{paddingBottom: "14px", fontSize:'1rem'}}>Please provide required information</p>
         {/* <p className="text-xs"> * marked fields are mandatory</p> */}
       </div>
 
