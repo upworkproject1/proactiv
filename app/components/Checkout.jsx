@@ -14,6 +14,7 @@ const Checkout = () => {
     const [expireMonth, setExpireMonth] = useState()
     const [expireYear, setExpireYear] = useState()
     const [cvc , setCvc] = useState()
+    const [country, setCountry] = useState('default')
 
     const router = useRouter();
 
@@ -47,6 +48,11 @@ const Checkout = () => {
       }      
       //if(e.target.name == 'creditcard'){}            
       
+    }
+
+
+    const selectedCountry = (e) =>{
+      setCountry(e.target.value)
     }
 
 
@@ -110,23 +116,35 @@ const Checkout = () => {
     const handleClick = (e) =>{
         e.preventDefault()
         //alert(expireYear + ' ' )
-        if(expireYear < 2023 ){
-          alert('Invalid expiration date')
-        } else if ( expireYear == 2023 && expireMonth < 7 ) {
-          alert('Invalid expiration date')
-        }else{
-          router.push('/funnel/thanks');
-        }
-        
 
-        // if( customers < 0 ){
-        //     alert('Invalid number')
-        // } else{    
-          
-        //   localStorage.setItem('keyfobs', JSON.stringify({customers: customers, price: price, addrings: optionsyes}));
-          
-        //   router.push('/funnel/order');
-        // }        
+        
+        if( 
+          creditCard == null || 
+          expireYear == null || 
+          expireMonth == null || 
+          cvc == null || 
+          country == 'default'
+          ){
+            alert('Complete the fields')
+          } else{    
+
+            if(expireYear < 2023 ){
+              alert('Invalid expiration date')
+            } else if ( expireYear == 2023 && expireMonth < 7 ) {
+              alert('Invalid expiration date')
+            }else if ( creditCard.length < 16 ) {
+              alert('Invalid Credit Card')
+            }else if ( cvc.length < 3 ) {
+              alert('Invalid CVC')
+            }else{
+              router.push('/funnel/thanks');
+            }
+
+          }
+
+
+
+              
 
     }
 
@@ -263,8 +281,13 @@ const Checkout = () => {
           Country
         </label>      
 
-        <select name='country' className="w-[85%] px-2 py-2 mb-2 rounded-lg border border-gray-300 focusInput" >
-          <option value="" disabled selected>Select a Country</option>          
+        <select 
+        name='country' 
+        className="w-[85%] px-2 py-2 mb-2 rounded-lg border border-gray-300 focusInput" 
+        value={country}
+        onChange={selectedCountry}
+        >
+          <option value="default" disabled selected>Select a Country</option>          
           <option value="Afghanistan">Afghanistan</option>
           <option value="Albania">Albania</option>
           <option value="Algeria">Algeria</option>
