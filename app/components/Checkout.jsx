@@ -197,29 +197,36 @@ const Checkout = () => {
       </table>
 
       <div className='w-[95%] flex items-center pt-3'>
-        <p className="fontTitle  w-[80%]" style={{ fontWeight:'700', color:'black' , margin: '3px 0 4px 0', fontSize:'1rem' , padding: '0 0 0 0', textAlign:'end'}}>Total:</p>
-        <p className="fontTitle text-center w-[20%]" style={{ fontWeight:'700', color:'black' , margin: '3px 0 4px 0', fontSize:'1rem', padding: '0 0 0 0'}}>&#163;{ (parseFloat(cTotal) + parseFloat(kfTotal) + parseFloat(srTotal)).toFixed(2).replace(',', '.') }</p>
+        <p className="fontTitle  w-[75%]" style={{ fontWeight:'700', color:'black' , margin: '3px 0 4px 0', fontSize:'1rem' , padding: '0 0 0 0', textAlign:'end'}}>Total:</p>
+        <p className="fontTitle text-center w-[25%]" style={{ fontWeight:'700', color:'black' , margin: '3px 0 4px 0', fontSize:'1rem', padding: '0 0 0 0'}}>&#163;{ (parseFloat(cTotal) + parseFloat(kfTotal) + parseFloat(srTotal)).toFixed(2).replace(',', '.') }</p>
       </div>
 
       <div className='w-[95%] flex items-center pt-3'>
-        <p className="fontTitle w-[80%]" style={{ fontWeight:'700', color:'black' , margin: '3px 0 4px 0', fontSize:'0.8rem', padding: ' 0 5px 0 0', textAlign:'end'}}>Deposit (today):</p>
+        <p className="fontTitle w-[75%]" style={{ fontWeight:'700', color:'black' , margin: '3px 0 4px 0', fontSize:'0.8rem', padding: ' 0 5px 0 0', textAlign:'end'}}>Deposit (today):</p>
         {/* <p className="fontTitle text-center" style={{ fontWeight:'700', color:'black' , margin: '5px 0 10px 0'}}>&#163;{ (parseFloat(cTotal) + parseFloat(kfTotal) + parseFloat(srTotal)).toFixed(2).replace(',', '.') }</p> */}
+        <div  className="flex font-bold w-[25%] h-fit px-1 py-1 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        <div className='w-[100%] flex overflow-hidden'>
+        £
         <input 
-          type="number"
+          type="text"
           name='deposit'
-          value={deposit}
+          value={`${deposit}`}
           onChange={handleDeposit}
-          className="font-bold w-[20%] h-fit px-1 py-1 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-        />
+          className=' outline-none max-w-[60px]'
+        />                    
+        </div>
+
+        </div>
+
       </div>
 
       <div className='w-[95%] flex items-center pt-3'>
-        <p className="fontTitle w-[80%]" style={{ fontWeight:'700', color:'black' , margin: '3px 0 4px 0', fontSize:'0.8rem', padding: ' 0 5px 0 0', textAlign:'end'}}>Balance Due (before despatch):</p>
+        <p className="fontTitle w-[75%]" style={{ fontWeight:'700', color:'black' , margin: '3px 0 4px 0', fontSize:'0.8rem', padding: ' 0 5px 0 0', textAlign:'end'}}>Balance Due (before despatch):</p>
         {/* <p className="fontTitle text-center" style={{ fontWeight:'700', color:'black' , margin: '5px 0 10px 0'}}>&#163;{ (parseFloat(cTotal) + parseFloat(kfTotal) + parseFloat(srTotal)).toFixed(2).replace(',', '.') }</p> */}
         <input 
-          type="number"
-          value={(parseFloat(cTotal) + parseFloat(kfTotal) + parseFloat(srTotal))-deposit}
-          className="font-bold w-[20%] h-fit px-1 py-1 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          type="text"
+          value={`£${ ((parseFloat(cTotal) + parseFloat(kfTotal) + parseFloat(srTotal))-deposit) < 0 ? 0 : ((parseFloat(cTotal) + parseFloat(kfTotal) + parseFloat(srTotal))-deposit).toFixed(2)   }`}
+          className="font-bold w-[25%] h-fit px-1 py-1 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         />
       </div>
 
