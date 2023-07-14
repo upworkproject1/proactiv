@@ -230,7 +230,8 @@ const Checkout = () => {
 
         <label htmlFor="card" className="fontForm mb-1 w-[85%] text-left">
           Card number
-        </label>      
+        </label> 
+        <div className="w-[85%] flex px-2 py-2 mb-2 rounded-lg border border-gray-300 focusInput ">
         <input
             type="number"
             name="creditcard"
@@ -238,8 +239,15 @@ const Checkout = () => {
             required
             onChange={inputCreditCardData}
             placeholder="1234 1234 1234 1234"
-            className="w-[85%] px-2 py-2 mb-2 rounded-lg border border-gray-300 focusInput "
-        />   
+            className='w-[60%] outline-none'
+        />           
+        <img 
+        src="https://res.cloudinary.com/dbew7ibhf/image/upload/v1689307395/extendida_Mesa_de_trabajo_1_u8bpxc.png" 
+        alt="" 
+        className='w-[40%] object-contain'
+        />
+        </div>     
+  
 
         <label htmlFor="card" className="fontForm mb-1 w-[85%] text-left">
           Expiry
