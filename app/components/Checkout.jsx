@@ -23,6 +23,10 @@ const Checkout = () => {
 
       if(e.target.name == 'creditcard'){
         const value = e.target.value;
+
+        if(/\D/.test(value)){
+          alert('Just numbers')
+        }
         if(value.length <= 16 ) {
           setCreditCard(value);
         }  
