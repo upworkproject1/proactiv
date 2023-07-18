@@ -120,7 +120,7 @@ const CardsFree = () => {
             onChange={changePercentage}
             // style={{borderRight: "0"}}
             />
-            <div className="flex text-2xl">%<span className="text-[#9c9c9c] text-[0.6rem] pl-2">of customers going to give the cards to</span></div>
+            <div className="flex text-2xl">%<span className="text-[#9c9c9c] text-[0.6rem] pl-2">% of customers going to give the cards to</span></div>
         </div>
 
 
