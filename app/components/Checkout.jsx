@@ -241,7 +241,7 @@ const Checkout = () => {
         </label> 
         <div className="w-[85%] flex px-2 py-2 mb-2 rounded-lg border border-gray-300 focusInput ">
         <input
-            type="text"
+            type="number"
             name="creditcard"
             value={creditCard}
             required
