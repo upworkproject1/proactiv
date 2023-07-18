@@ -106,9 +106,9 @@ const CardsFree = () => {
         </div> */}
 
 
-        <label htmlFor="Card to each customer (2 or 3 cards per happy customer recommended)" style={{color:'#4a6bb6' , padding: "0 0 5px 0" , textAlign:'center', lineHeight: '1', fontSize:'0.7rem'}}>
+        {/* <label htmlFor="Card to each customer (2 or 3 cards per happy customer recommended)" style={{color:'#4a6bb6' , padding: "0 0 5px 0" , textAlign:'center', lineHeight: '1', fontSize:'0.7rem'}}>
           % of customers going to give the cards to
-        </label> 
+        </label>  */}
         <div className="flex items-center mb-4 rounded-lg border border-gray-300 focusInput ">
             <input
             name="percentage"
@@ -120,7 +120,7 @@ const CardsFree = () => {
             onChange={changePercentage}
             // style={{borderRight: "0"}}
             />
-            <div className="flex text-2xl">%</div>
+            <div className="flex text-2xl">%<span className="text-[#9c9c9c] text-[0.6rem] pl-2">of customers going to give the cards to</span></div>
         </div>
 
 
