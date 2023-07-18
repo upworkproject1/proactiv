@@ -138,7 +138,7 @@ const CardsForm = ({estimate}) => {
 
 
           <label htmlFor="Card price (GBP)" className="fontForm mb-1">
-            Cards price
+            Total card price
           </label>          
         <div className="flex justify-between gap-2 items-center mb-4 "> 
           <input

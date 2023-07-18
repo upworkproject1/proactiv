@@ -180,7 +180,7 @@ const Checkout = () => {
           </tr>
           <tr className="border-b bg-[#96cfd1]">
             <td className="resize-text py-1 px-2">
-                { cardsdata.needed } Additional Cards <br /> ( {cardsdata.option} ) <br />
+                { cardsdata.needed + 100 } Additional Cards <br /> ( {cardsdata.option} ) <br />
                 {/* (100 free cards + { cardsdata.needed }) */}
             </td>
             <td className="resize-text py-1 px-2">&#163; {cTotal} </td>
@@ -307,7 +307,9 @@ const Checkout = () => {
         value={country}
         onChange={selectedCountry}
         >
-          <option value="default" disabled selected>Select a Country</option>          
+          <option value="default" disabled selected>Select a Country</option>  
+          <option value="United Kingdom">United Kingdom</option>
+          <option value="United States">United States</option>                  
           <option value="Afghanistan">Afghanistan</option>
           <option value="Albania">Albania</option>
           <option value="Algeria">Algeria</option>
@@ -489,8 +491,6 @@ const Checkout = () => {
           <option value="Uganda">Uganda</option>
           <option value="Ukraine">Ukraine</option>
           <option value="United Arab Emirates">United Arab Emirates</option>
-          <option value="United Kingdom">United Kingdom</option>
-          <option value="United States">United States</option>
           <option value="Uruguay">Uruguay</option>
           <option value="Uzbekistan">Uzbekistan</option>
           <option value="Vanuatu">Vanuatu</option>
