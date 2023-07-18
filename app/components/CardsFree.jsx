@@ -6,7 +6,7 @@ import CardsForm from "./CardsForm"
 const CardsFree = () => {
   const [calculate, serCalculate] = useState(false)
   const [estimate, setEstimate] = useState({average:'',percentage:100,cards:'',months:''})
-  const [percentageField ,setPercentageField] = useState('100%')
+  const [percentageField ,setPercentageField] = useState('100')
 
 
   const handleChange = (e) =>{
@@ -15,15 +15,30 @@ const CardsFree = () => {
 
   const changePercentage = (e) =>{
     let value = e.target.value
-
     if( /[^\d%]/.test(value)){
       //COMPROBACION DE QUE SEA SOLO NUMERO O % SIGN
-    }else if(value.slice(-1) !== '%' || parseInt(value.replace('%', '')) > 100 || parseInt(value.replace('%', '')) < 0){
+    }else if( value > 100 || value < 0){
+      //alert('si')
       //COMPROBACION DE QUE SE MANTENGA EL % SIGN Y QUE NO SEA NI MAYOR A 100 NI MENOS A 0
     } else{
       setPercentageField(e.target.value)
       setEstimate({...estimate , percentage: parseInt(value.replace('%', ''))})
     }
+
+
+    {/* OPCION CON PORCENTAJE DENTRO DE INPUT */}
+    // let value = e.target.value
+    // if( /[^\d%]/.test(value)){
+    //   //COMPROBACION DE QUE SEA SOLO NUMERO O % SIGN
+    //   alert('si')
+    // }else if(value.slice(-1) !== '%' || parseInt(value.replace('%', '')) > 100 || parseInt(value.replace('%', '')) < 0){
+    //   //COMPROBACION DE QUE SE MANTENGA EL % SIGN Y QUE NO SEA NI MAYOR A 100 NI MENOS A 0
+    // } else{
+    //   setPercentageField(e.target.value)
+    //   setEstimate({...estimate , percentage: parseInt(value.replace('%', ''))})
+    // }
+
+
   }
 
   const handleClick = (e)=>{
@@ -74,7 +89,9 @@ const CardsFree = () => {
         {/* <label for="Percentage of customers going to give the card to" className="fontForm mb-1">
           Percentage of customers going to give the cards to*
         </label>    */}
-        <div className="flex justify-between items-center mb-4 rounded-lg border border-gray-300 focusInput ">
+
+        {/* OPCION CON PORCENTAJE DENTRO DE INPUT */}
+        {/* <div className="flex justify-between items-center mb-4 rounded-lg border border-gray-300 focusInput ">
             <input
             name="percentage"
             type="text"
@@ -85,8 +102,28 @@ const CardsFree = () => {
             onChange={changePercentage}
             // style={{borderRight: "0"}}
             />
-            {/* <div className="text-center text-2xl">%</div> */}
+            <div className="text-center text-2xl">%</div>
+        </div> */}
+
+
+        <label htmlFor="Card to each customer (2 or 3 cards per happy customer recommended)" style={{color:'#4a6bb6' , padding: "0 0 5px 0" , textAlign:'center', lineHeight: '1', fontSize:'0.7rem'}}>
+          % of customers going to give the cards to
+        </label> 
+        <div className="flex items-center mb-4 rounded-lg border border-gray-300 focusInput ">
+            <input
+            name="percentage"
+            type="text"
+            value={percentageField}
+            required
+            className="max-w-[45px] py-2 pl-4 pr-1 rounded-lg outline-none text-end"
+            //placeholder="% of customers going to give the cards to"
+            onChange={changePercentage}
+            // style={{borderRight: "0"}}
+            />
+            <div className="flex text-2xl">%</div>
         </div>
+
+
 
         <label htmlFor="Card to each customer (2 or 3 cards per happy customer recommended)" style={{color:'#4a6bb6' , padding: "0 0 5px 0" , textAlign:'center', lineHeight: '1', fontSize:'0.7rem'}}>
           (We recommend 2 or 3 cards per happy customer)
