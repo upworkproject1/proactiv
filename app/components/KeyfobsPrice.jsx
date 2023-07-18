@@ -56,7 +56,7 @@ const KeyfobsPrice = () => {
 
 
         if( customers < 250 ){
-            alert('minimum 250 customers')
+            alert('minimum 250 keyfobs.')
         } else{    
           
           localStorage.setItem('keyfobs', JSON.stringify({customers: customers, price: price, addrings: optionsyes}));
@@ -122,7 +122,7 @@ const KeyfobsPrice = () => {
 
         
         <label htmlFor="Average no. of customers per month" className="fontForm mb-1 w-full text-left">
-          Total number of customers <span style={{fontSize:'10px'}}>(minimum 250 customers)</span>
+          Total number of customers <span style={{fontSize:'10px'}}>(minimum 250 keyfobs)</span>
         </label>      
         <input
             type="number"

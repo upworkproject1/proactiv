@@ -9,8 +9,8 @@ const FunnelKeyFob = () => {
     <>
       <KeyFobsVideo/>
       <KeyFobsSamples/>
-      <KeyfobsPrice/>
       <KeyFobsTestimonials/>
+      <KeyfobsPrice/>
     </>
   )
 }

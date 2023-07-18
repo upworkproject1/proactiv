@@ -13,7 +13,7 @@ const page = () => {
         <p className='fontSubTitle' style={{ color: 'blue'}}>
             Proactiv Marketing Ltd. <br />
             admin@proactivmarketing.co.uk <br />
-            08006124438
+            0800 6124438
         </p>
 
         </div>

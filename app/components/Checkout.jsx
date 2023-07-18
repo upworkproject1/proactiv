@@ -23,9 +23,10 @@ const Checkout = () => {
 
       if(e.target.name == 'creditcard'){
         const value = e.target.value;
-        if (value.length <= 16) {
+        if(value.length <= 16 ) {
           setCreditCard(value);
-        }   
+        }  
+ 
       }
 
       if(e.target.name == 'expireMonth'){
@@ -240,7 +241,7 @@ const Checkout = () => {
         </label> 
         <div className="w-[85%] flex px-2 py-2 mb-2 rounded-lg border border-gray-300 focusInput ">
         <input
-            type="number"
+            type="text"
             name="creditcard"
             value={creditCard}
             required
@@ -264,7 +265,7 @@ const Checkout = () => {
             type="number" 
             name='expireMonth'
             value={expireMonth}
-            className='w-[30px] text-center outline-none'
+            className='w-[40px] text-center outline-none'
             placeholder='MM'
             onChange={inputCreditCardData}            
             /> 
@@ -273,7 +274,7 @@ const Checkout = () => {
             type="number" 
             name='expireYear'    
             value={expireYear}        
-            className='w-[45px] text-center outline-none'
+            className='w-[55px] text-center outline-none'
             placeholder='YYYY'
             onChange={inputCreditCardData}            
             />

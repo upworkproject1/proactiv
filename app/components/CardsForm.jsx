@@ -11,7 +11,7 @@ const CardsForm = ({estimate}) => {
     const [artWork] = useState(37.50)
     const [deliveryPrice] = useState(14.00)
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [addition, setAddition] = useState(estimate);
+    const [addition, setAddition] = useState(estimate-100);
     const [paymentOption, setPaymentOption] = useState('£51.50')
     const [cardsData, setCardsData] = useState({needed:(estimate-100), totaldue: 0 , payment:0, option:''})
     
@@ -30,7 +30,7 @@ const CardsForm = ({estimate}) => {
     }
 
     useEffect(()=>{
-      setAddition(estimate)
+      setAddition(estimate-100)
 
     },[estimate])
 
@@ -38,17 +38,17 @@ const CardsForm = ({estimate}) => {
 
       setCardsData({needed:(addition-freeCards), totaldue: ((price * (parseInt(addition) - parseInt(freeCards))) + 37.5 + 14) , payment: parseFloat(paymentOption.replace('£','')), option: (selectedOption?'full payment':'deposit') })
 
-      if((addition-freeCards) >= 1 && (addition-freeCards) <= 499 ){
+      if((addition) >= 1 && (addition) <= 499 ){
         setPrice(0.53)
-      }else if((addition-freeCards) >= 500 && (addition-freeCards) <= 999 ){
+      }else if((addition) >= 500 && (addition) <= 999 ){
         setPrice(0.45)
-      }else if((addition-freeCards) >= 1000 && (addition-freeCards) <= 2499 ){
+      }else if((addition) >= 1000 && (addition) <= 2499 ){
         setPrice(0.40)
-      }else if((addition-freeCards) >= 2500 && (addition-freeCards) <= 4999 ){
+      }else if((addition) >= 2500 && (addition) <= 4999 ){
         setPrice(0.36)
-      }else if((addition-freeCards) >= 5000 && (addition-freeCards) <= 9999 ){
+      }else if((addition) >= 5000 && (addition) <= 9999 ){
         setPrice(0.32)
-      }else if((addition-freeCards) >= 10000 ){
+      }else if((addition) >= 10000 ){
         setPrice(0.30)
       }
       
@@ -104,8 +104,8 @@ const CardsForm = ({estimate}) => {
           Number of free cards
         </label>          
         <input
-          
-          defaultValue={freeCards}
+          readonly
+          value={freeCards}
           type="number"
           placeholder="Please input number"
           className="px-4 py-2 mb-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -117,7 +117,7 @@ const CardsForm = ({estimate}) => {
         </label>        
         <input
           
-          value={(parseInt(addition) - parseInt(freeCards) )}
+          value={addition}
           onChange={handleChange}
           type="number"
           placeholder="Please input number"
@@ -129,7 +129,7 @@ const CardsForm = ({estimate}) => {
         </label>        
         <input
           
-          value={(parseInt(addition))}
+          value={(parseInt(addition) + parseInt(freeCards))}
           type="number"
           placeholder="Please input number"
           className="px-4 py-2 mb-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -143,7 +143,7 @@ const CardsForm = ({estimate}) => {
         <div className="flex justify-between gap-2 items-center mb-4 "> 
           <input
             
-            value={ `£${(price * (parseInt(addition) - parseInt(freeCards) ) ).toFixed(2).replace(',', '.')}`}
+            value={ `£${(price * (parseInt(addition)) ).toFixed(2).replace(',', '.')}`}
             type="text"
             placeholder="Please input number"
             className="w-[75%] py-2 pl-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"

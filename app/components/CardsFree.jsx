@@ -5,12 +5,26 @@ import CardsForm from "./CardsForm"
 
 const CardsFree = () => {
   const [calculate, serCalculate] = useState(false)
-  const [estimate, setEstimate] = useState({average:'',percentage:'',cards:'',months:''})
+  const [estimate, setEstimate] = useState({average:'',percentage:100,cards:'',months:''})
+  const [percentageField ,setPercentageField] = useState('100%')
 
 
   const handleChange = (e) =>{
     setEstimate({...estimate , [e.target.name]:e.target.value})
   }  
+
+  const changePercentage = (e) =>{
+    let value = e.target.value
+
+    if( /[^\d%]/.test(value)){
+      //COMPROBACION DE QUE SEA SOLO NUMERO O % SIGN
+    }else if(value.slice(-1) !== '%' || parseInt(value.replace('%', '')) > 100 || parseInt(value.replace('%', '')) < 0){
+      //COMPROBACION DE QUE SE MANTENGA EL % SIGN Y QUE NO SEA NI MAYOR A 100 NI MENOS A 0
+    } else{
+      setPercentageField(e.target.value)
+      setEstimate({...estimate , percentage: parseInt(value.replace('%', ''))})
+    }
+  }
 
   const handleClick = (e)=>{
     e.preventDefault()
@@ -60,19 +74,18 @@ const CardsFree = () => {
         {/* <label for="Percentage of customers going to give the card to" className="fontForm mb-1">
           Percentage of customers going to give the cards to*
         </label>    */}
-        <div className="flex justify-between items-center mb-4 rounded-lg border border-gray-300 focusInput">
+        <div className="flex justify-between items-center mb-4 rounded-lg border border-gray-300 focusInput ">
             <input
-            type="number"
-            required
-            className="w-full py-2 pl-4 pr-4 rounded-lg focusInput"
-            placeholder="% of customers going to give the cards to"
             name="percentage"
-            onChange={handleChange}
-            min={1}
-            max={100}
+            type="text"
+            value={percentageField}
+            required
+            className=" w-full py-2 pl-4 pr-4 rounded-lg focusInput"
+            placeholder="% of customers going to give the cards to"
+            onChange={changePercentage}
             // style={{borderRight: "0"}}
             />
-            <div className="text-center text-2xl">%</div>
+            {/* <div className="text-center text-2xl">%</div> */}
         </div>
 
         <label htmlFor="Card to each customer (2 or 3 cards per happy customer recommended)" style={{color:'#4a6bb6' , padding: "0 0 5px 0" , textAlign:'center', lineHeight: '1', fontSize:'0.7rem'}}>
