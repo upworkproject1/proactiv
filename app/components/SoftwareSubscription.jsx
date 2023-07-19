@@ -81,7 +81,9 @@ const SoftwareSubscription = () => {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    const numberRegex = /^0[127]\d{9}$/;
+    //const numberRegex = /^0[127]\d{9}$/;
+
+    const numberRegex = /^(?:\+|\d)\d*$/ ;    
 
     if( 
       data.fullname.length == 0 || 
