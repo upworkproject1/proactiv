@@ -83,7 +83,7 @@ const SoftwareSubscription = () => {
 
     //const numberRegex = /^0[127]\d{9}$/;
 
-    const numberRegex = /^(?:\+|\d)\d*$/ ;    
+    const numberRegex = /^(?=.*\d)[\d+]{11,}$/ ;    
 
     if( 
       data.fullname.length == 0 || 
