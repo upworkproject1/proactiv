@@ -10,7 +10,43 @@ export const Spinning = ({setCongrats,setResult}) => {
   const [clicked, setClicked] = useState(false)
 
   const handleSpin = () => {
-    setDeg(Math.ceil(Math.random() * 100000))
+
+    //ANTES DE LOS CAMBIOS
+    // setDeg(Math.ceil(Math.random() * 100000))    
+    
+    //PARA CONTROLAR LOS RESULTADOS, PODRIA PRIMERO INSTANCIAR UNA VARIABLE Y LUEGO MODIFICAR ESA VARIABLE
+    // START CONTROL SPIN RESULT
+    let random = Math.random() * 100
+
+    if (random < 50) {
+      //3 months 50%
+      setDeg(69841)
+    } else if (random < 75) {
+      //3+3 months 25%
+      setDeg(79841)
+    } else if (random < 85) {
+      //6 months 10%
+      setDeg(66841)
+    } else if (random < 92.5) {
+      //6 + 6 months 7.5%
+      setDeg(58841)
+    } else if (random < 97.5) {
+      //9 months 5%
+      setDeg(68541)
+    } else if (random <= 100){
+      //12 months 2.5%
+      setDeg(68441)
+    }
+
+
+    
+    
+    
+
+
+
+    // END CONTROL SPIN RESULT
+    
     setClicked(true)
 
     localStorage.setItem('click', JSON.stringify('done'));
