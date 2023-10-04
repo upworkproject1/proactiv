@@ -2,7 +2,7 @@
 import { useSearchParams } from "next/navigation";
 import React from "react";
 
-const page = () => {
+const Page = () => {
   const searchParams = useSearchParams();
   const paymentStatus = searchParams.get("status");
 
