@@ -21,7 +21,6 @@ const Checkout = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [paymentLink, setPaymentLink] = useState(null);
 
-  const router = useRouter();
   const dueAmount =
     parseFloat(cTotal) + parseFloat(kfTotal) + parseFloat(srTotal) - deposit < 0
       ? 0
@@ -31,9 +30,14 @@ const Checkout = () => {
           parseFloat(srTotal) -
           deposit
         ).toFixed(2);
+
   let paymentResponse;
-  const storedUserData = JSON.parse(localStorage.getItem("data") ?? null);
-  const customers = JSON.parse(localStorage.getItem("customers") ?? null);
+  let storedUserData;
+  let customers;
+  if (typeof localStorage !== "undefined") {
+    storedUserData = JSON.parse(localStorage.getItem("data") ?? null);
+    customers = JSON.parse(localStorage.getItem("customers") ?? null);
+  }
 
   const cardPaymentHandler = async () => {
     paymentResponse = await axios.post("/api/payment/card", {
