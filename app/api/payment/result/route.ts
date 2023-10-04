@@ -1,9 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(
-  request: NextApiRequest,
-  response: NextApiResponse
-) {
+export default async (request: NextApiRequest, response: NextApiResponse) => {
   try {
     const { url } = request;
     const parameters = new URLSearchParams(url);
@@ -21,10 +18,10 @@ export default async function handler(
     // If you want to redirect, you should use NextResponse.redirect as follows:
     // NextResponse.redirect("/funnel/order");
 
-    // If you want to send JSON response, you should use response.json as follows:
+    // If you want to send a JSON response, you should use response.json as follows:
     response.json({ output });
   } catch (error) {
     console.error("Error:", error);
     response.status(500).json({ error: "Internal Server Error" });
   }
-}
+};
