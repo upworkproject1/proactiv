@@ -7,7 +7,7 @@ const nextConfig = {
   },
   webpack: (config, { isServer }) => {
     // Add the CopyWebpackPlugin configuration to copy the folder during build
-    if (!isServer) {
+    // if (!isServer) {
       config.plugins.push(
         new CopyWebpackPlugin({
           patterns: [
@@ -18,7 +18,7 @@ const nextConfig = {
           ],
         })
       );
-    }
+    // }
     return config;
   },
 };
