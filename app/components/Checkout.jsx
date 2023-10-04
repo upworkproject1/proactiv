@@ -1,315 +1,477 @@
-'use client'
-import React, { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation';
+"use client";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Checkout = () => {
-    const [softwaredata, setSoftwaredata] = useState('');
-    const [cardsdata, setCardsdata] = useState('');
-    const [keyfobdata, setKeyfobdata] = useState('')
-    const [cTotal, setCtotal] = useState('')
-    const [kfTotal, setKftotal] = useState('')
-    const [srTotal, setSrtotal] = useState('')
-    const [deposit, setDeposit] = useState((parseFloat(cTotal) + parseFloat(kfTotal) + parseFloat(srTotal)))
-    const [creditCard, setCreditCard] = useState()
-    const [expireMonth, setExpireMonth] = useState()
-    const [expireYear, setExpireYear] = useState()
-    const [cvc , setCvc] = useState()
-    const [country, setCountry] = useState('default')
+  const [softwaredata, setSoftwaredata] = useState("");
+  const [cardsdata, setCardsdata] = useState("");
+  const [keyfobdata, setKeyfobdata] = useState("");
+  const [cTotal, setCtotal] = useState("");
+  const [kfTotal, setKftotal] = useState("");
+  const [srTotal, setSrtotal] = useState("");
+  const [deposit, setDeposit] = useState(
+    parseFloat(cTotal) + parseFloat(kfTotal) + parseFloat(srTotal)
+  );
+  const [creditCard, setCreditCard] = useState();
+  const [expireMonth, setExpireMonth] = useState();
+  const [expireYear, setExpireYear] = useState();
+  const [cvc, setCvc] = useState();
+  const [country, setCountry] = useState("default");
+  const [isLoading, setIsLoading] = useState(false);
+  const [paymentLink, setPaymentLink] = useState(null);
 
-    const router = useRouter();
+  const dueAmount =
+    parseFloat(cTotal) + parseFloat(kfTotal) + parseFloat(srTotal) - deposit < 0
+      ? 0
+      : (
+          parseFloat(cTotal) +
+          parseFloat(kfTotal) +
+          parseFloat(srTotal) -
+          deposit
+        ).toFixed(2);
 
+  let paymentResponse;
+  let storedUserData;
+  let customers;
+  if (typeof localStorage !== "undefined") {
+    storedUserData = JSON.parse(localStorage.getItem("data") ?? null);
+    customers = JSON.parse(localStorage.getItem("customers") ?? null);
+  }
 
-    const inputCreditCardData = (e) =>{
+  const cardPaymentHandler = async () => {
+    paymentResponse = await axios.post("/api/payment/card", {
+      amount: deposit,
+      cardNumber: creditCard,
+      month: expireMonth,
+      year: expireYear,
+      cvc,
+      cardHolderName: storedUserData.fullname,
+    });
+  };
 
-      if(e.target.name == 'creditcard'){
-        const value = e.target.value;
+  const hostedPaymentHandler = async () => {
+    setIsLoading(true);
+    try {
+      paymentResponse = await axios.post("/api/payment/hosted", {
+        amount: deposit,
+        dueAmount: dueAmount,
+        userData: storedUserData,
+        custom: {
+          softwareData: softwaredata,
+          cardsData: cardsdata,
+          keyFobData: keyfobdata,
+        },
+      });
+      const paymentUrl = paymentResponse?.data?.data?.url;
 
-        if(/\D/.test(value)){
-          alert('Just numbers')
-        }
-        if(value.length <= 16 ) {
-          setCreditCard(value);
-        }  
- 
+      localStorage.setItem(
+        "transactionRreference",
+        paymentResponse?.data["transactionReference"]
+      );
+
+      setPaymentLink(paymentUrl);
+      // Send Email before going to Payment Method
+      try {
+        const emailRegistration = await axios.post("/api/notify", {
+          userData: storedUserData,
+          softwareData: softwaredata,
+          cardsData: cardsdata,
+          keyFobData: keyfobdata,
+          customers,
+          orderSummary: [
+            `${cardsdata.needed + 100} Additional Cards ${
+              cardsdata.option
+            } = ${cTotal}`,
+            `${keyfobdata.customers} Keyfobs = ${kfTotal}`,
+            `${
+              keyfobdata.addrings == "No" ? 0 : keyfobdata.customers
+            } Split Rings = ${srTotal}`,
+            `Total = ${(
+              parseFloat(cTotal) +
+              parseFloat(kfTotal) +
+              parseFloat(srTotal)
+            )
+              .toFixed(2)
+              .replace(",", ".")}`,
+            `Deposity (today) = $${deposit}`,
+            `Balance Due (before dispatch) = ${dueAmount}`,
+          ],
+          transactionReference: paymentResponse?.data["transactionReference"],
+        });
+
+        console.log(emailRegistration);
+      } catch (error) {
+        console.log(error);
       }
 
-      if(e.target.name == 'expireMonth'){
-        const value = e.target.value;
-        if (value.length <= 2) {
-          setExpireMonth(value);
-        }          
-      }      
-      if(e.target.name == 'expireYear'){
-        const value = e.target.value;   
-        if (value.length <= 4) {
-          setExpireYear(value);
-        }               
-      }            
-      if(e.target.name == 'cvc'){
-        const value = e.target.value; 
-        if (value.length <= 3) {
-          setCvc(value);
-        }            
-      }      
-      //if(e.target.name == 'creditcard'){}            
-      
+      window.open(paymentUrl, "_self");
+    } catch (error) {
+      console.log(error);
+      alert("Something Went Wrong");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const inputCreditCardData = (e) => {
+    if (e.target.name == "creditcard") {
+      const value = e.target.value;
+
+      if (/\D/.test(value)) {
+        alert("Just numbers");
+      }
+      if (value.length <= 16) {
+        setCreditCard(value);
+      }
     }
 
-
-    const selectedCountry = (e) =>{
-      setCountry(e.target.value)
+    if (e.target.name == "expireMonth") {
+      const value = e.target.value;
+      if (value.length <= 2) {
+        setExpireMonth(value);
+      }
     }
-
-
-
-    useEffect(()=>{
-        let storageSoft = JSON.parse(localStorage.getItem('software'));
-        let storageCards = JSON.parse(localStorage.getItem('cardsdata'));
-        let storageKeyfobs = JSON.parse(localStorage.getItem('keyfobs'));
-
-        setSoftwaredata(storageSoft)
-        setCardsdata(storageCards)
-        setKeyfobdata(storageKeyfobs)
-
-        // if(averagecustomers != ''){
-        //     setCustomers( parseInt(averagecustomers))
-        // }
-
-    },[])    
-
-
-    useEffect(()=>{
-        if(cardsdata != ''){
-            if(cardsdata.option == 'full payment'){
-                setCtotal(cardsdata.totaldue.toFixed(2).replace(',', '.'))
-            } else{
-                setCtotal(cardsdata.payment.toFixed(2).replace(',', '.'))
-            }
-        }
-    },[cardsdata])
-
-    useEffect(()=>{
-
-        if(keyfobdata != ''){
-            setKftotal(((keyfobdata.customers * keyfobdata.price) * 0.5).toFixed(2).replace(',', '.') )
-
-            if(keyfobdata.addrings == 'No'){
-                setSrtotal('0.00')
-            } else {
-                setSrtotal((Math.ceil(keyfobdata.customers/100) * (6 * 0.5)).toFixed(2).replace(',', '.'))
-            }
-
-        }
-
-    },[keyfobdata])
-
-    useEffect(()=>{
-      setDeposit((parseFloat(cTotal) + parseFloat(kfTotal) + parseFloat(srTotal)))
-    },[cTotal,kfTotal,srTotal])
-
-
-    const handleDeposit = (e)=>{
-      setDeposit(e.target.value)
+    if (e.target.name == "expireYear") {
+      const value = e.target.value;
+      if (value.length <= 4) {
+        setExpireYear(value);
+      }
     }
-
-
-
-
-
-
-
-    const handleClick = (e) =>{
-        e.preventDefault()
-        //alert(expireYear + ' ' )
-
-        
-        if( 
-          creditCard == null || 
-          expireYear == null || 
-          expireMonth == null || 
-          cvc == null || 
-          country == 'default'
-          ){
-            alert('Complete the fields')
-          } else{    
-
-            if(expireYear < 2023 ){
-              alert('Invalid expiration date')
-            } else if ( expireYear == 2023 && expireMonth < 7 ) {
-              alert('Invalid expiration date')
-            }else if ( creditCard.length < 16 ) {
-              alert('Invalid Credit Card')
-            }else if ( cvc.length < 3 ) {
-              alert('Invalid CVC')
-            }else{
-              router.push('/funnel/thanks');
-            }
-
-          }
-
-
-
-              
-
+    if (e.target.name == "cvc") {
+      const value = e.target.value;
+      if (value.length <= 3) {
+        setCvc(value);
+      }
     }
+    //if(e.target.name == 'creditcard'){}
+  };
 
+  const selectedCountry = (e) => {
+    setCountry(e.target.value);
+  };
 
+  useEffect(() => {
+    let storageSoft = JSON.parse(localStorage.getItem("software"));
+    let storageCards = JSON.parse(localStorage.getItem("cardsdata"));
+    let storageKeyfobs = JSON.parse(localStorage.getItem("keyfobs"));
+
+    setSoftwaredata(storageSoft);
+    setCardsdata(storageCards);
+    setKeyfobdata(storageKeyfobs);
+
+    // if(averagecustomers != ''){
+    //     setCustomers( parseInt(averagecustomers))
+    // }
+  }, []);
+
+  useEffect(() => {
+    if (cardsdata != "") {
+      if (cardsdata.option == "full payment") {
+        setCtotal(cardsdata.totaldue.toFixed(2).replace(",", "."));
+      } else {
+        setCtotal(cardsdata.payment.toFixed(2).replace(",", "."));
+      }
+    }
+  }, [cardsdata]);
+
+  useEffect(() => {
+    if (keyfobdata != "") {
+      setKftotal(
+        (keyfobdata.customers * keyfobdata.price * 0.5)
+          .toFixed(2)
+          .replace(",", ".")
+      );
+
+      if (keyfobdata.addrings == "No") {
+        setSrtotal("0.00");
+      } else {
+        setSrtotal(
+          (Math.ceil(keyfobdata.customers / 100) * (6 * 0.5))
+            .toFixed(2)
+            .replace(",", ".")
+        );
+      }
+    }
+  }, [keyfobdata]);
+
+  useEffect(() => {
+    setDeposit(parseFloat(cTotal) + parseFloat(kfTotal) + parseFloat(srTotal));
+  }, [cTotal, kfTotal, srTotal]);
+
+  const handleDeposit = (e) => {
+    setDeposit(e.target.value);
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    //alert(expireYear + ' ' )
+
+    if (
+      creditCard == null ||
+      expireYear == null ||
+      expireMonth == null ||
+      cvc == null ||
+      country == "default"
+    ) {
+      alert("Complete the fields");
+    } else {
+      if (expireYear < 2023) {
+        alert("Invalid expiration date");
+      } else if (expireYear == 2023 && expireMonth < 7) {
+        alert("Invalid expiration date");
+      } else if (creditCard.length < 16) {
+        alert("Invalid Credit Card");
+      } else if (cvc.length < 3) {
+        alert("Invalid CVC");
+      } else {
+        cardPaymentHandler();
+        // router.push('/funnel/thanks');
+      }
+    }
+  };
+
+  const hideElement = {
+    display: "none",
+  };
 
   return (
     <div className="flex flex-col w-[95%] my-4 py-5 items-center bg-white rounded-lg shadow-md relative h-full md:w-[52%]">
-
-
-      <p className="fontTitle text-center" style={{ fontWeight:'700', color:'#a52a2a' , padding: '5px 0 20px 0'}}>Checkout</p>
-      <p className="fontSubTitle text-center" style={{fontSize: '1.5rem', fontWeight: '700', color: '#4a6bb6', lineHeight:'1.2' , paddingBottom: '0.5rem'}}>Order Summary</p>
+      <p
+        className="fontTitle text-center"
+        style={{ fontWeight: "700", color: "#a52a2a", padding: "5px 0 20px 0" }}
+      >
+        Checkout
+      </p>
+      <p
+        className="fontSubTitle text-center"
+        style={{
+          fontSize: "1.5rem",
+          fontWeight: "700",
+          color: "#4a6bb6",
+          lineHeight: "1.2",
+          paddingBottom: "0.5rem",
+        }}
+      >
+        Order Summary
+      </p>
       <table className="w-[95%] border rounded-lg">
         <thead>
           <tr className="border-b bg-[#7a94b3]">
-            <th className="resize-text py-1 px-2 w-[75%] text-white" style={{fontWeight:'700'}}>Description</th>
-            <th className="resize-text py-1 px-2 w-[25%] text-white" style={{fontWeight:'700'}}>Total</th>
+            <th
+              className="resize-text py-1 px-2 w-[75%] text-white"
+              style={{ fontWeight: "700" }}
+            >
+              Description
+            </th>
+            <th
+              className="resize-text py-1 px-2 w-[25%] text-white"
+              style={{ fontWeight: "700" }}
+            >
+              Total
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr className="border-b bg-[#ffffff]">
             <td className="resize-text py-1 px-2">
               Referral Marketing Cards
-                {/* Software Subscription 
+              {/* Software Subscription 
                 <br /> {softwaredata.description} */}
-
             </td>
             <td className="resize-text py-1 px-2">FREE</td>
           </tr>
           <tr className="border-b bg-[#96cfd1]">
             <td className="resize-text py-1 px-2">
-                { cardsdata.needed + 100 } Additional Cards <br /> ( {cardsdata.option} ) <br />
-                {/* (100 free cards + { cardsdata.needed }) */}
+              {cardsdata.needed + 100} Additional Cards <br /> ({" "}
+              {cardsdata.option} ) <br />
+              {/* (100 free cards + { cardsdata.needed }) */}
             </td>
             <td className="resize-text py-1 px-2">&#163; {cTotal} </td>
           </tr>
           <tr className="border-b bg-[#ffffff]">
             <td className="resize-text py-1 px-2">
-                {keyfobdata.customers} Keyfobs
+              {keyfobdata.customers} Keyfobs
             </td>
-            <td className="resize-text py-1 px-2">&#163; { kfTotal }</td>
+            <td className="resize-text py-1 px-2">&#163; {kfTotal}</td>
           </tr>
           <tr className="border-b bg-[#96cfd1]">
             <td className="resize-text py-1 px-2">
-                { keyfobdata.addrings == 'No' ? 0 : keyfobdata.customers} Split Rings
+              {keyfobdata.addrings == "No" ? 0 : keyfobdata.customers} Split
+              Rings
             </td>
-            <td className="resize-text py-1 px-2">&#163; { srTotal } </td>
+            <td className="resize-text py-1 px-2">&#163; {srTotal} </td>
           </tr>
-
         </tbody>
       </table>
 
-      <div className='w-[95%] flex items-center pt-3'>
-        <p className="fontTitle  w-[75%]" style={{ fontWeight:'700', color:'black' , margin: '3px 0 4px 0', fontSize:'1rem' , padding: '0 0 0 0', textAlign:'end'}}>Total:</p>
-        <p className="fontTitle text-center w-[25%]" style={{ fontWeight:'700', color:'black' , margin: '3px 0 4px 0', fontSize:'1rem', padding: '0 0 0 0'}}>&#163;{ (parseFloat(cTotal) + parseFloat(kfTotal) + parseFloat(srTotal)).toFixed(2).replace(',', '.') }</p>
+      <div className="w-[95%] flex items-center pt-3">
+        <p
+          className="fontTitle  w-[75%]"
+          style={{
+            fontWeight: "700",
+            color: "black",
+            margin: "3px 0 4px 0",
+            fontSize: "1rem",
+            padding: "0 0 0 0",
+            textAlign: "end",
+          }}
+        >
+          Total:
+        </p>
+        <p
+          className="fontTitle text-center w-[25%]"
+          style={{
+            fontWeight: "700",
+            color: "black",
+            margin: "3px 0 4px 0",
+            fontSize: "1rem",
+            padding: "0 0 0 0",
+          }}
+        >
+          &#163;
+          {(parseFloat(cTotal) + parseFloat(kfTotal) + parseFloat(srTotal))
+            .toFixed(2)
+            .replace(",", ".")}
+        </p>
       </div>
 
-      <div className='w-[95%] flex items-center pt-3'>
-        <p className="fontTitle w-[75%]" style={{ fontWeight:'700', color:'black' , margin: '3px 0 4px 0', fontSize:'0.8rem', padding: ' 0 5px 0 0', textAlign:'end'}}>Deposit (today):</p>
+      <div className="w-[95%] flex items-center pt-3">
+        <p
+          className="fontTitle w-[75%]"
+          style={{
+            fontWeight: "700",
+            color: "black",
+            margin: "3px 0 4px 0",
+            fontSize: "0.8rem",
+            padding: " 0 5px 0 0",
+            textAlign: "end",
+          }}
+        >
+          Deposit (today):
+        </p>
         {/* <p className="fontTitle text-center" style={{ fontWeight:'700', color:'black' , margin: '5px 0 10px 0'}}>&#163;{ (parseFloat(cTotal) + parseFloat(kfTotal) + parseFloat(srTotal)).toFixed(2).replace(',', '.') }</p> */}
-        <div  className="flex font-bold w-[25%] h-fit px-1 py-1 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-        <div className='w-[100%] flex overflow-hidden'>
-        £
-        <input 
-          type="text"
-          name='deposit'
-          value={`${deposit}`}
-          onChange={handleDeposit}
-          className=' outline-none max-w-[60px]'
-        />                    
+        <div className="flex font-bold w-[25%] h-fit px-1 py-1 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+          <div className="w-[100%] flex overflow-hidden">
+            £
+            <input
+              type="text"
+              name="deposit"
+              value={`${deposit}`}
+              onChange={handleDeposit}
+              className=" outline-none max-w-[60px]"
+            />
+          </div>
         </div>
-
-        </div>
-
       </div>
 
-      <div className='w-[95%] flex items-center pt-3'>
-        <p className="fontTitle w-[75%]" style={{ fontWeight:'700', color:'black' , margin: '3px 0 4px 0', fontSize:'0.8rem', padding: ' 0 5px 0 0', textAlign:'end'}}>Balance Due (before despatch):</p>
+      <div className="w-[95%] flex items-center pt-3">
+        <p
+          className="fontTitle w-[75%]"
+          style={{
+            fontWeight: "700",
+            color: "black",
+            margin: "3px 0 4px 0",
+            fontSize: "0.8rem",
+            padding: " 0 5px 0 0",
+            textAlign: "end",
+          }}
+        >
+          Balance Due (before despatch):
+        </p>
         {/* <p className="fontTitle text-center" style={{ fontWeight:'700', color:'black' , margin: '5px 0 10px 0'}}>&#163;{ (parseFloat(cTotal) + parseFloat(kfTotal) + parseFloat(srTotal)).toFixed(2).replace(',', '.') }</p> */}
-        <input 
+        <input
           type="text"
-          value={`£${ ((parseFloat(cTotal) + parseFloat(kfTotal) + parseFloat(srTotal))-deposit) < 0 ? 0 : ((parseFloat(cTotal) + parseFloat(kfTotal) + parseFloat(srTotal))-deposit).toFixed(2)   }`}
+          value={`£${dueAmount}`}
           className="font-bold w-[25%] h-fit px-1 py-1 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         />
       </div>
 
-
-        {/* PAYMENT METHOD */}
-
-        <p className="fontSubTitle text-center" style={{fontSize: '1.5rem', fontWeight: '700', color: '#4a6bb6', lineHeight:'1.2' , paddingBottom: '0.5rem'}}>Payment Method</p>
+      {/* PAYMENT METHOD */}
+      <div style={hideElement}>
+        <p
+          className="fontSubTitle text-center"
+          style={{
+            fontSize: "1.5rem",
+            fontWeight: "700",
+            color: "#4a6bb6",
+            lineHeight: "1.2",
+            paddingBottom: "0.5rem",
+          }}
+        >
+          Payment Method
+        </p>
 
         <label htmlFor="card" className="fontForm mb-1 w-[85%] text-left">
           Card number
-        </label> 
+        </label>
         <div className="w-[85%] flex px-2 py-2 mb-2 rounded-lg border border-gray-300 focusInput ">
-        <input
+          <input
             type="number"
             name="creditcard"
             value={creditCard}
             required
             onChange={inputCreditCardData}
             placeholder="1234 1234 1234 1234"
-            className='w-[60%] outline-none'
-        />           
-        <img 
-        src="https://res.cloudinary.com/dbew7ibhf/image/upload/v1689307395/extendida_Mesa_de_trabajo_1_u8bpxc.png" 
-        alt="" 
-        className='w-[40%] object-contain'
-        />
-        </div>     
-  
+            className="w-[60%] outline-none"
+          />
+          <img
+            src="https://res.cloudinary.com/dbew7ibhf/image/upload/v1689307395/extendida_Mesa_de_trabajo_1_u8bpxc.png"
+            alt=""
+            className="w-[40%] object-contain"
+          />
+        </div>
 
         <label htmlFor="card" className="fontForm mb-1 w-[85%] text-left">
           Expiry
-        </label>   
+        </label>
         <div className="w-[85%] px-2 py-2 mb-2 rounded-lg border border-gray-300 focusInput ">
-            <input 
-            type="number" 
-            name='expireMonth'
+          <input
+            type="number"
+            name="expireMonth"
             value={expireMonth}
-            className='w-[40px] text-center outline-none'
-            placeholder='MM'
-            onChange={inputCreditCardData}            
-            /> 
-            / 
-            <input 
-            type="number" 
-            name='expireYear'    
-            value={expireYear}        
-            className='w-[55px] text-center outline-none'
-            placeholder='YYYY'
-            onChange={inputCreditCardData}            
-            />
+            className="w-[40px] text-center outline-none"
+            placeholder="MM"
+            onChange={inputCreditCardData}
+          />
+          /
+          <input
+            type="number"
+            name="expireYear"
+            value={expireYear}
+            className="w-[55px] text-center outline-none"
+            placeholder="YYYY"
+            onChange={inputCreditCardData}
+          />
         </div>
-
 
         <label htmlFor="card" className="fontForm mb-1 w-[85%] text-left">
           CVC
-        </label>      
+        </label>
         <input
-            type="number"
-            name="cvc"
-            value={cvc}
-            onChange={inputCreditCardData} 
-            placeholder="CVC"
-            className="w-[85%] px-2 py-2 mb-2 rounded-lg border border-gray-300 focusInput "
-        />     
+          type="number"
+          name="cvc"
+          value={cvc}
+          onChange={inputCreditCardData}
+          placeholder="CVC"
+          className="w-[85%] px-2 py-2 mb-2 rounded-lg border border-gray-300 focusInput "
+        />
 
         <label htmlFor="country" className="fontForm mb-1 w-[85%] text-left">
           Country
-        </label>      
+        </label>
 
-        <select 
-        name='country' 
-        className="w-[85%] px-2 py-2 mb-2 rounded-lg border border-gray-300 focusInput" 
-        value={country}
-        onChange={selectedCountry}
+        <select
+          name="country"
+          className="w-[85%] px-2 py-2 mb-2 rounded-lg border border-gray-300 focusInput"
+          value={country}
+          onChange={selectedCountry}
         >
-          <option value="default" disabled selected>Select a Country</option>  
+          <option value="default" disabled selected>
+            Select a Country
+          </option>
           <option value="United Kingdom">United Kingdom</option>
-          <option value="United States">United States</option>                  
+          <option value="United States">United States</option>
           <option value="Afghanistan">Afghanistan</option>
           <option value="Albania">Albania</option>
           <option value="Algeria">Algeria</option>
@@ -341,7 +503,9 @@ const Checkout = () => {
           <option value="Cameroon">Cameroon</option>
           <option value="Canada">Canada</option>
           <option value="Cape Verde">Cape Verde</option>
-          <option value="Central African Republic">Central African Republic</option>
+          <option value="Central African Republic">
+            Central African Republic
+          </option>
           <option value="Chad">Chad</option>
           <option value="Chile">Chile</option>
           <option value="China">China</option>
@@ -453,7 +617,9 @@ const Checkout = () => {
           <option value="Rwanda">Rwanda</option>
           <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
           <option value="Saint Lucia">Saint Lucia</option>
-          <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+          <option value="Saint Vincent and the Grenadines">
+            Saint Vincent and the Grenadines
+          </option>
           <option value="Samoa">Samoa</option>
           <option value="San Marino">San Marino</option>
           <option value="Sao Tome and Principe">Sao Tome and Principe</option>
@@ -501,18 +667,32 @@ const Checkout = () => {
           <option value="Zambia">Zambia</option>
           <option value="Zimbabwe">Zimbabwe</option>
         </select>
-
-
-        <button
-          type="submit"
-          className="px-4 py-2 buttonsMain mt-3"
-          onClick={handleClick}
-        >
-          Continue
-        </button>   
-
+      </div>
+      {/* <button
+        type="submit"
+        className="px-4 py-2 buttonsMain mt-3"
+        onClick={hostedPaymentHandler}
+        disabled={isLoading}
+      >
+        {isLoading ? "Processing Payment..." : "Pay Amount"}
+      </button> */}
+      <button
+        type="submit"
+        className="px-4 py-2 buttonsMain mt-3"
+        onClick={isLoading ? null : hostedPaymentHandler}
+      >
+        {isLoading ? (
+          "Processing..."
+        ) : paymentLink ? (
+          <a href={paymentLink} target="_blank" rel="noopener noreferrer">
+            Open Link for Payment
+          </a>
+        ) : (
+          "Pay Amount"
+        )}
+      </button>
     </div>
-  )
-}
+  );
+};
 
-export default Checkout
+export default Checkout;

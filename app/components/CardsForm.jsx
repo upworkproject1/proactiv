@@ -36,7 +36,7 @@ const CardsForm = ({estimate}) => {
 
     useEffect(()=>{
 
-      setCardsData({needed:(addition-freeCards), totaldue: ((price * (parseInt(addition) - parseInt(freeCards))) + 37.5 + 14) , payment: parseFloat(paymentOption.replace('£','')), option: (selectedOption?'full payment':'deposit') })
+      setCardsData({needed:(addition-freeCards), totaldue: ((price * (parseInt(addition))) + 37.5 + 14) , payment: parseFloat(paymentOption.replace('£','')), option: (selectedOption?'full payment':'deposit') })
 
       if((addition) >= 1 && (addition) <= 499 ){
         setPrice(0.53)
@@ -57,10 +57,10 @@ const CardsForm = ({estimate}) => {
 
 
     useEffect(()=>{
-      console.log('cambio por price')
-      console.log(price);
-      console.log(parseInt(addition) - parseInt(freeCards));
-      setCardsData({needed:(addition-freeCards), totaldue: ((price * (parseInt(addition) - parseInt(freeCards))) + 37.5 + 14) , payment: parseFloat(paymentOption.replace('£','')), option: (selectedOption?'full payment':'deposit') })
+      // console.log('cambio por price')
+      // console.log(price);
+      // console.log(parseInt(addition));
+      setCardsData({needed:(addition-freeCards), totaldue: ((price * (parseInt(addition))) + 37.5 + 14) , payment: parseFloat(paymentOption.replace('£','')), option: (selectedOption?'full payment':'deposit') })
     },[price])
 
 
@@ -73,7 +73,7 @@ const CardsForm = ({estimate}) => {
       e.preventDefault()
 
       let deposit = parseFloat(paymentOption.replace('£',''))
-      let full = ((price * (parseInt(addition) - parseInt(freeCards))) + 37.5 + 14)
+      let full = ((price * (parseInt(addition))) + 37.5 + 14)
             
       // alert(`${deposit} ${ full} ${typeof deposit} ${typeof full}`)
       if (deposit > full ){
@@ -87,11 +87,9 @@ const CardsForm = ({estimate}) => {
     }
 
     useEffect(()=>{
-      setCardsData({needed:(addition-freeCards), totaldue: ((price * (parseInt(addition) - parseInt(freeCards))) + 37.5 + 14) , payment: parseFloat(paymentOption.replace('£','')), option: (selectedOption?'full payment':'deposit') })
+      setCardsData({needed:(addition-freeCards), totaldue: ((price * (parseInt(addition))) + 37.5 + 14) , payment: parseFloat(paymentOption.replace('£','')), option: (selectedOption?'full payment':'deposit') })
       
     },[paymentOption])
-
-
 
   return (
     <div className="flex flex-col justify-center items-center w-full min-h-screen">
@@ -225,7 +223,7 @@ const CardsForm = ({estimate}) => {
         </label>         
         <input
           
-          value={`£${((price * (parseInt(addition) - parseInt(freeCards))) + 37.5 + 14).toFixed(2).replace(',', '.')}`}
+          value={`£${((price * (parseInt(addition))) + 37.5 + 14).toFixed(2).replace(',', '.')}`}
           type="text"
           placeholder="Please input number"
           className="font-bold px-4 py-2 mb-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -263,8 +261,8 @@ const CardsForm = ({estimate}) => {
         
         
         <input 
-          value={ selectedOption ? `£${((price * (parseInt(addition) - parseInt(freeCards))) + 37.5 + 14).toFixed(2).replace(',', '.')}` : paymentOption}
-          //value={ selectedOption ? (price * (parseInt(addition) - parseInt(freeCards)) + 37.5 + 14) : paymentOption}
+          value={ selectedOption ? `£${((price * (parseInt(addition))) + 37.5 + 14).toFixed(2).replace(',', '.')}` : paymentOption}
+          //value={ selectedOption ? (price * (parseInt(addition)) + 37.5 + 14) : paymentOption}
           type="text"
           onChange={handelChangePayment}
           className="font-bold px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
