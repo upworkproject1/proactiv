@@ -1,14 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
-
-// export async function GET(req: Request, rez: NextRequest) {
-//   console.log(rez.url);
-//   const response = "NextRequest";
-//   return NextResponse.json({ response });
-// }
-
 import { NextApiRequest, NextApiResponse } from "next";
 
-export async function GET(request: NextApiRequest, response: NextApiResponse) {
+export default async function handler(
+  request: NextApiRequest,
+  response: NextApiResponse
+) {
   try {
     const { url } = request;
     const parameters = new URLSearchParams(url);
@@ -22,10 +17,14 @@ export async function GET(request: NextApiRequest, response: NextApiResponse) {
       }
       output += value;
     }
-    // return NextResponse.json({ output });
-    NextResponse.redirect("/funnel/order");
+
+    // If you want to redirect, you should use NextResponse.redirect as follows:
+    // NextResponse.redirect("/funnel/order");
+
+    // If you want to send JSON response, you should use response.json as follows:
+    response.json({ output });
   } catch (error) {
     console.error("Error:", error);
-    return NextResponse.json({ error: "Internal Server Error" });
+    response.status(500).json({ error: "Internal Server Error" });
   }
 }
