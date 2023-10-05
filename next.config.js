@@ -12,8 +12,8 @@ const nextConfig = {
         new CopyWebpackPlugin({
           patterns: [
             {
-              from: "app/api/notify/emails",
-              to: "server/app/api/notify/emails",
+              from: "emails",
+              to: "server/emails",
             },
           ],
         })
