@@ -2,10 +2,10 @@ const nodemailer = require("nodemailer");
 const ejs = require("ejs");
 const path = require("path");
 
-const templatesDir = path.join(__dirname, "emails");
+const templatesDir = path.join(__dirname, "../../../emails");
 
 export async function sendMail(subject, toEmail, templateName, data) {
-  var transporter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: process.env.NOTIFICATION_EMAIL,
@@ -17,7 +17,7 @@ export async function sendMail(subject, toEmail, templateName, data) {
   const emailHTML = await ejs.renderFile(templatePath, data);
 
   // return emailHTML;
-  var mailOptions = {
+  const mailOptions = {
     from: process.env.NOTIFICATION_EMAIL,
     to: toEmail,
     subject: subject,
