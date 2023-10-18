@@ -24,11 +24,11 @@ const SoftwareSubscription = () => {
     let dataStored = JSON.parse(localStorage.getItem('data'));
     if( dataStored.fullname?.length == 0 || dataStored.email.length == 0 || dataStored == 'undefined'){
       setData({...data, fullname:'none',businessname:'none',email:'none',number:'none',industry:'none',web:'none',address:'none',periodselested:'', packageselected:''})
-      console.log('entro a if falso');
+      // console.log('entro a if falso');
     }else{
       setData({...data, fullname: dataStored.fullname , businessname: dataStored.businessname, email: dataStored.email, number: dataStored.number})
-      console.log('entro a if correcto');
-      console.log(dataStored.fullname);
+      // console.log('entro a if correcto');
+      // console.log(dataStored.fullname);
     }    
 
   },[])
