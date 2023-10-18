@@ -48,11 +48,11 @@ export async function POST(req: Request) {
 
     resultURLs: {
       successURL: `${process.env.APP_URL}/funnel/thanks?status=success`,
-      pendingURL: `${process.env.APP_URL}/funnel/thanks?status=pending`,
-      failureURL: `${process.env.APP_URL}/funnel/thanks?status=failure`,
-      errorURL: `${process.env.APP_URL}/funnel/thanks?status=error`,
+      pendingURL: `${process.env.APP_URL}/funnel/order?status=pending`,
+      failureURL: `${process.env.APP_URL}/funnel/order?status=failure`,
+      errorURL: `${process.env.APP_URL}/funnel/order?status=error`,
       cancelURL: `${process.env.APP_URL}/funnel/thanks?status=cancel`,
-      expiryURL: `${process.env.APP_URL}/funnel/thanks?status=expiry`,
+      expiryURL: `${process.env.APP_URL}/funnel/order?status=expiry`,
     },
     riskData: {
       custom,
