@@ -73,34 +73,36 @@ const Checkout = () => {
       setPaymentLink(paymentUrl);
       // Send Email before going to Payment Method
       try {
-        const emailRegistration = await axios.post("/api/notify", {
-          userData: storedUserData,
-          softwareData: softwaredata,
-          cardsData: cardsdata,
-          keyFobData: keyfobdata,
-          customers,
-          orderSummary: [
-            `${cardsdata.needed + 100} Additional Cards ${
-              cardsdata.option
-            } = ${cTotal}`,
-            `${keyfobdata.customers} Keyfobs = ${kfTotal}`,
-            `${
-              keyfobdata.addrings == "No" ? 0 : keyfobdata.customers
-            } Split Rings = ${srTotal}`,
-            `Total = ${(
-              parseFloat(cTotal) +
-              parseFloat(kfTotal) +
-              parseFloat(srTotal)
-            )
-              .toFixed(2)
-              .replace(",", ".")}`,
-            `Deposity (today) = $${deposit}`,
-            `Balance Due (before dispatch) = ${dueAmount}`,
-          ],
-          transactionReference: paymentResponse?.data["transactionReference"],
-        });
+        if (process.env.WORLDPAY_USERNAME == "Yes") {
+          const emailRegistration = await axios.post("/api/notify", {
+            userData: storedUserData,
+            softwareData: softwaredata,
+            cardsData: cardsdata,
+            keyFobData: keyfobdata,
+            customers,
+            orderSummary: [
+              `${cardsdata.needed + 100} Additional Cards ${
+                cardsdata.option
+              } = ${cTotal}`,
+              `${keyfobdata.customers} Keyfobs = ${kfTotal}`,
+              `${
+                keyfobdata.addrings == "No" ? 0 : keyfobdata.customers
+              } Split Rings = ${srTotal}`,
+              `Total = ${(
+                parseFloat(cTotal) +
+                parseFloat(kfTotal) +
+                parseFloat(srTotal)
+              )
+                .toFixed(2)
+                .replace(",", ".")}`,
+              `Deposity (today) = $${deposit}`,
+              `Balance Due (before dispatch) = ${dueAmount}`,
+            ],
+            transactionReference: paymentResponse?.data["transactionReference"],
+          });
 
-        console.log(emailRegistration);
+          console.log(emailRegistration);
+        }
       } catch (error) {
         console.log(error);
       }

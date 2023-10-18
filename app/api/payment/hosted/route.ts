@@ -11,7 +11,8 @@ export async function POST(req: Request) {
   const { amount, dueAmount, userData, custom } = await req.json();
   
   // Convert amount to an integer
-  const transactionReference = uuidv4();
+  // const transactionReference = uuidv4();
+  const transactionReference = `${new Date().toISOString().replace(/[^0-9]/g, '')}-${userData.fullname.toLowerCase().replace(/\s/g, '').replace(/[^a-zA-Z0-9]/g, '')}`;
 
   const axiosInstance = axios.create({
     auth: {
@@ -36,13 +37,13 @@ export async function POST(req: Request) {
       currency: "GBP",
       amount: amount*100,
     },
-    description: "Funnel Referral Card Payment",
+    description: "Take off funnel",
     billingAddressName: userData.fullname,
     billingAddress: {
-      address1: "Islamabad",
-      postalCode: userData.address,
-      city: "Islamabad",
-      countryCode: "PK",
+      address1: "Proactiv House, Park Street",
+      postalCode: "S73 OHF",
+      city: "Wombwell",
+      countryCode: "GB",
     },
 
     resultURLs: {
